@@ -1,11 +1,27 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Your Title</title>
-    <!-- Add your CSS links here -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <title>{% block title %}Bookstore{% endblock %}</title>
 </head>
 <body>
+    <header>
+        <h1>Welcome to our Project Site</h1>
+        <nav>
+            <ul>
+                {% if user.is_authenticated %}
+                <li>Welcome, <span style="color: mediumvioletred">{{ user.username }}</span></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+                <li><a href="{% url 'logout' %}">logout</a></li>
+                {% else %}
+                <li><a href="{% url 'login' %}">login</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
     <div class="container">
         {% block content %}
         {% endblock %}
