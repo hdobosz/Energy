@@ -12,11 +12,14 @@ import plotly.io as pio
 from django.shortcuts import render
 import json
 from .models import EnergyConsumption
+from django.views.generic.edit import UpdateView
+from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
 
 
 # Create your views here.
 class HomePageView(TemplateView):
-    template_name = "base.html" #new
+    template_name = "energy_list.html" #new
 
 def register(request):
     if request.method == 'POST':               # if form is submitted
@@ -55,12 +58,28 @@ def user_logout(request):
     logout(request)  # logout user
     return redirect('home')  # redirect to home
 
+class EnergyConsumptionListView(ListView):
+    model = EnergyConsumption
+    template_name = 'energy_list.html'
+    context_object_name = 'energy_records'
+
+
+class EnergyConsumptionDetailView(DetailView):
+    model = EnergyConsumption
+    template_name = 'energy_detail.html'
+    context_object_name = 'energy'
+
 class EnergyConsumptionCreateView(CreateView):
     model = EnergyConsumption
     form_class = EnergyConsumptionForm
-    template_name = 'energy.html' 
+    template_name = 'energy_form.html' 
     success_url = reverse_lazy('home') 
 
+class EnergyConsumptionUpdateView(UpdateView):
+    model = EnergyConsumption
+    form_class = EnergyConsumptionForm
+    template_name = 'energy_form.html'  # Create a separate template for updating
+    success_url = reverse_lazy('home')
 
 def create_pie_chart(request):
     # Retrieve data from the "EnergyConsumption" model

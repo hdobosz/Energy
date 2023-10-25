@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Energy Form {% endblock %}
+{% block content %}
+<h2>{% if form.instance.pk %}Update{% else %}Add{% endif %} Energy Consumption Record</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% if form.instance.pk %}Update{% else %}Add{% endif %}</button>
+</form>
+<a href="{% url 'energy-list' %}">Back to List</a>
+{% endblock %}

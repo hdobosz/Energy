@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Energy List {% endblock %}
+{% block content %}
+<h2>Energy Consumption Records</h2>
+<ul>
+    {% for energy in energy_records %}
+    <li><a href="{% url 'energy-detail' energy.pk %}">{{energy.year}}-{{ energy.month }}</a></li>
+    {% empty %}
+        <li>No energy consumption records available.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'energy-create' %}">Add Record</a>
+<a href="{% url 'energy-list' %}">Back to List</a>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Energy Details {% endblock %}
+{% block content %}
+<h2>Energy Consumption Details</h2>
+<p><strong>Month:</strong> {{ energy.month }}</p>
+<p><strong>Total kWh:</strong> {{ energy.total_kwh }}</p>
+<a href="{% url 'energy-list' %}">Back to List</a>
+{% endblock %}
