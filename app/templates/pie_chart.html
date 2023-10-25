@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Pie Chart Page</h1>
+    <p>This page displays the pie chart:</p>
+    <div id="pie-chart"></div>
+    {{ chart_data|safe }}
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script>
+    var chartData = JSON.parse('{{ chart_data|safe }}');
+    var chartDiv = document.getElementById('pie-chart');
+    Plotly.newPlot(chartDiv, chartData.data, chartData.layout);
+    </script>
+{% endblock %}

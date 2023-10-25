@@ -3,6 +3,15 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import RegistrationForm, LoginForm
 from django.contrib import messages
 from django.views.generic.base import TemplateView # new
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView
+from .models import EnergyConsumption
+from .forms import EnergyConsumptionForm
+import plotly.express as px
+import plotly.io as pio
+from django.shortcuts import render
+import json
+from .models import EnergyConsumption
 
 
 # Create your views here.
@@ -46,7 +55,29 @@ def user_logout(request):
     logout(request)  # logout user
     return redirect('home')  # redirect to home
 
+class EnergyConsumptionCreateView(CreateView):
+    model = EnergyConsumption
+    form_class = EnergyConsumptionForm
+    template_name = 'energy.html' 
+    success_url = reverse_lazy('home') 
 
 
+def create_pie_chart(request):
+    # Retrieve data from the "EnergyConsumption" model
+    data = EnergyConsumption.objects.all()
 
+    # Process the data and create a list of categories and values
+    categories = [entry.month for entry in data]
+    values = [entry.total_kwh for entry in data]
+
+    # Create a DataFrame for the pie chart
+    pie_chart_data = {'Category': categories, 'Values': values}
+
+    # Create a pie chart using Plotly
+    fig = px.pie(pie_chart_data, names='Category', values='Values', title='Pie Chart Example')
+
+    # Convert the chart to JSON using plotly.io.to_json
+    chart_data = pio.to_json(fig)
+
+    return render(request, 'pie_chart.html', {'chart_data': chart_data})
 

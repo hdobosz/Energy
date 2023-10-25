@@ -13,8 +13,10 @@
         <nav>
             <ul>
                 {% if user.is_authenticated %}
-                <li>Welcome, <span style="color: mediumvioletred">{{ user.username }}</span></li>
+                <li>Welcome, <span style="color: rgb(197, 137, 209)">{{ user.username }}</span></li>
+                <li><a href="{% url 'energy' %}">Energy</a></li>
                 <li><a href="{% url 'logout' %}">logout</a></li>
+                <li><a href="{% url 'pie_chart' %}">Pie Chart</a></li> 
                 {% else %}
                 <li><a href="{% url 'login' %}">login</a></li>
                 {% endif %}
