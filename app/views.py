@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .forms import RegistrationForm, LoginForm
 from django.contrib import messages
-from django.views.generic.base import TemplateView # new
+from django.views.generic.base import TemplateView 
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from .models import EnergyConsumption
@@ -19,8 +19,8 @@ from django.views.generic.list import ListView
 
 
 def register(request):
-    if request.method == 'POST':               # if form is submitted
-        form = RegistrationForm(request.POST)  # create form
+    if request.method == 'POST':               
+        form = RegistrationForm(request.POST)  
         if form.is_valid():                   
             user = form.save(commit=False)     
             password = form.cleaned_data['password']  
@@ -54,6 +54,7 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect('energy-list') 
+
 
 class EnergyConsumptionListView(ListView):
     model = EnergyConsumption

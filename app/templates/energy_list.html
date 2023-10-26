@@ -4,7 +4,7 @@
 <h2>Energy Consumption Records</h2>
 <ul>
     {% for energy in energy_records %}
-    <li><a href="{% url 'energy-detail' energy.pk %}">{{energy.year}}-{{ energy.month }}</a></li>
+    <li><a href="{% url 'energy-detail' energy.pk %}">{{energy.year}} | {{ energy.month }}</a></li>
     {% empty %}
         <li>No energy consumption records available.</li>
     {% endfor %}

@@ -13,6 +13,6 @@
 <p><strong>Total Water Heat kWh:</strong> {{ energy.water_heat_kwh }}</p>
 <p><strong>Total House kWh:</strong> {{ energy.house_heat_kwh }}</p>
 <p><strong>Total Photocoltaic kWh:</strong> {{ energy.photovoltaic }}</p>
-
+<a href="{% url 'energy-update' energy.pk%}">Update</a>
 <a href="{% url 'energy-list' %}">Back to List</a>
 {% endblock %}

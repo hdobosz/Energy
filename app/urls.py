@@ -8,6 +8,7 @@ from .views import (
     EnergyConsumptionUpdateView,
     EnergyConsumptionCreateView,
     EnergyConsumptionDetailView,  
+    TemplateView
 )
 
 urlpatterns = [
@@ -18,7 +19,6 @@ urlpatterns = [
     path('', EnergyConsumptionListView.as_view(), name='energy-list'),
     path('<int:pk>/', EnergyConsumptionDetailView.as_view(), name='energy-detail'),
     path('create/', EnergyConsumptionCreateView.as_view(), name='energy-create'),
-    path('<int:pk>/edit/', EnergyConsumptionUpdateView.as_view(), name='energy-update'),
-       
+    path('<int:pk>/edit/', EnergyConsumptionUpdateView.as_view(), name='energy-update'),    
     path('pie-chart/', create_pie_chart, name='pie-chart'), 
 ]
