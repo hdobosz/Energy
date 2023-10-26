@@ -60,6 +60,7 @@ class EnergyConsumptionListView(ListView):
     model = EnergyConsumption
     template_name = 'energy_list.html'
     context_object_name = 'energy_records'
+    queryset = EnergyConsumption.objects.all().order_by('month')
 
 
 class EnergyConsumptionDetailView(DetailView):
