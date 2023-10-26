@@ -3,13 +3,14 @@
 {% block content %}
     <h1>Bar Chart Page</h1>
     <p>This page displays the bar chart:</p>
-    <div id="bar-chart"></div>
+    <div id="bar-chart"></div>  {# This is where the chart will be displayed #}
     {{ chart_data|safe }}
 
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script>
-    var chartData = {{ chart_data|safe|safe }};
+    var chartData = JSON.parse('{{ chart_data|safe }}');
     var chartDiv = document.getElementById('bar-chart');
     Plotly.newPlot(chartDiv, chartData.data, chartData.layout);
     </script>
 {% endblock %}
+
