@@ -101,28 +101,88 @@ def create_pie_chart(request):
     return render(request, 'pie_chart.html', {'chart_data': chart_data})
 
 
+# class DataProcessor:
+#     def __init__(self, year):
+#         self.year = year
+
+#     def process_data(self):
+
+#         BuildingConsumption.objects.filter(year=self.year).delete()
+
+#         for month in range(1, 13):  # Von 1 bis 12 für das gesamte Jahr
+#             try:
+#                 data_current_month = EnergyConsumption.objects.get(year=self.year, month=month)
+#                 data_previous_month = EnergyConsumption.objects.get(year=self.year, month=month-1)
+#                 result = data_current_month.total_kwh - data_previous_month.total_kwh
+#             except EnergyConsumption.DoesNotExist:
+#                 print(f'Data not found for year {self.year}, month {month}. Using default value.')
+#                 result = 0
+
+#             BuildingConsumption.objects.create(
+#                 total_consumption=result,
+#                 month=month,
+#                 year=self.year
+#             )
+
+# processor = DataProcessor(year=2023)
+# processor.process_data()
+
+
+# class DataProcessor:
+#     def __init__(self, year):
+#         self.year = year
+
+#     def process_data(self):
+
+#         BuildingConsumption.objects.filter(year=self.year).delete()
+
+#         sorted_energy_data = EnergyConsumption.objects.filter(year=self.year).order_by('year', 'month') #new
+
+#         for data in sorted_energy_data:  #new                        # Von 1 bis 12 für das gesamte Jahr
+#             month = data.month #new
+#             try:
+#                 data_current_month = EnergyConsumption.objects.get(year=self.year, month=month)
+#                 data_previous_month = EnergyConsumption.objects.get(year=self.year, month=month-1) #new
+#                 result = data_current_month.total_kwh - data_previous_month.total_kwh #new
+
+#                 #data_previous_month = EnergyConsumption.objects.get(year=self.year, month=month-1)
+#                 #result = data_current_month.total_kwh - data_previous_month.total_kwh
+#             except EnergyConsumption.DoesNotExist:
+#                 print(f'Data not found for year {self.year}, month {month}. Using default value.')
+#                 result = 0
+
+#             BuildingConsumption.objects.create(
+#                 total_consumption=result,
+#                 month=month,
+#                 year=self.year
+#             )
+
+# processor = DataProcessor(year=2023)
+# processor.process_data()
+
+
+
+
 class DataProcessor:
     def __init__(self, year):
         self.year = year
-
     def process_data(self):
-
         BuildingConsumption.objects.filter(year=self.year).delete()
-
-        for month in range(1, 13):  # Von 1 bis 12 für das gesamte Jahr
+        sorted_energy_data = EnergyConsumption.objects.filter(year=self.year).order_by('month')  # Order by 'month'
+        print(sorted_energy_data)
+        for data in sorted_energy_data:
+            month = data.month
             try:
                 data_current_month = EnergyConsumption.objects.get(year=self.year, month=month)
-                data_previous_month = EnergyConsumption.objects.get(year=self.year, month=month-1)
+                data_previous_month = EnergyConsumption.objects.get(year=self.year, month=month - 1)
                 result = data_current_month.total_kwh - data_previous_month.total_kwh
             except EnergyConsumption.DoesNotExist:
                 print(f'Data not found for year {self.year}, month {month}. Using default value.')
                 result = 0
-
             BuildingConsumption.objects.create(
                 total_consumption=result,
                 month=month,
                 year=self.year
             )
-
 processor = DataProcessor(year=2023)
 processor.process_data()
