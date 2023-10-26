@@ -28,7 +28,7 @@ def register(request):
             user.save()                              
             messages.success(request, 'Account created successfully') 
             # login(request, user)                      
-            return redirect('login')                   
+            return redirect('energy-list')                   
     else:                                             
         form = RegistrationForm() # create form
     return render(request, 'users/register.html', {'form': form}) 
@@ -43,7 +43,7 @@ def user_login(request):
             user = authenticate(request, username=username, password=password) 
             if user is not None:          
                 login(request, user)
-                return redirect('home')  
+                return redirect('energy-list')  
             else:
                 form.add_error(None, f'Failed to authenticate user: {username}')
     else:                                
@@ -53,7 +53,7 @@ def user_login(request):
 
 def user_logout(request):
     logout(request)
-    return redirect('home') 
+    return redirect('energy-list') 
 
 class EnergyConsumptionListView(ListView):
     model = EnergyConsumption
