@@ -17,46 +17,43 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
 
-# Create your views here.
-class HomePageView(TemplateView):
-    template_name = "energy_list.html" #new
 
 def register(request):
     if request.method == 'POST':               # if form is submitted
         form = RegistrationForm(request.POST)  # create form
-        if form.is_valid():                    # if form data is valid
-            user = form.save(commit=False)     # create user, but don't save to database yet
-            password = form.cleaned_data['password']  # get password from form
-            user.set_password(password)               # set password
-            user.save()                               # save user
-            messages.success(request, 'Account created successfully')  # send success message
-            # login(request, user)                      # login user
-            return redirect('login')                   # redirect to home
-    else:                                             # if form is not submitted
+        if form.is_valid():                   
+            user = form.save(commit=False)     
+            password = form.cleaned_data['password']  
+            user.set_password(password)             
+            user.save()                              
+            messages.success(request, 'Account created successfully') 
+            # login(request, user)                      
+            return redirect('login')                   
+    else:                                             
         form = RegistrationForm() # create form
-    return render(request, 'users/register.html', {'form': form}) # render template
+    return render(request, 'users/register.html', {'form': form}) 
 
 
 def user_login(request):
-    if request.method == 'POST':        # if form is submitted
-        form = LoginForm(request.POST)  # create form
+    if request.method == 'POST':      
+        form = LoginForm(request.POST)  
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)   # authenticate user
-            if user is not None:           # if user exists
-                login(request, user)   # login user
-                return redirect('home')  # redirect to home
+            user = authenticate(request, username=username, password=password) 
+            if user is not None:          
+                login(request, user)
+                return redirect('home')  
             else:
                 form.add_error(None, f'Failed to authenticate user: {username}')
-    else:                                # if form is not submitted
-        form = LoginForm()               # create form
-    return render(request, 'users/login.html', {'form': form})  # render template
+    else:                                
+        form = LoginForm()               
+    return render(request, 'users/login.html', {'form': form})
 
 
 def user_logout(request):
-    logout(request)  # logout user
-    return redirect('home')  # redirect to home
+    logout(request)
+    return redirect('home') 
 
 class EnergyConsumptionListView(ListView):
     model = EnergyConsumption
@@ -73,13 +70,14 @@ class EnergyConsumptionCreateView(CreateView):
     model = EnergyConsumption
     form_class = EnergyConsumptionForm
     template_name = 'energy_form.html' 
-    success_url = reverse_lazy('home') 
+    success_url = reverse_lazy('energy-list') 
 
 class EnergyConsumptionUpdateView(UpdateView):
     model = EnergyConsumption
     form_class = EnergyConsumptionForm
-    template_name = 'energy_form.html'  # Create a separate template for updating
-    success_url = reverse_lazy('home')
+    template_name = 'energy_form.html' 
+    context_object_name = 'energy'
+    success_url = reverse_lazy('energy-list')
 
 def create_pie_chart(request):
     # Retrieve data from the "EnergyConsumption" model

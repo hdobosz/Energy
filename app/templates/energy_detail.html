@@ -2,7 +2,17 @@
 {% block title %}Energy Details {% endblock %}
 {% block content %}
 <h2>Energy Consumption Details</h2>
+<p><strong>Year:</strong> {{ energy.year }}</p>
 <p><strong>Month:</strong> {{ energy.month }}</p>
 <p><strong>Total kWh:</strong> {{ energy.total_kwh }}</p>
+<p><strong>Attic kWh:</strong> {{ energy.attic_kwh }}</p>
+<p><strong>Basement kWh:</strong> {{ energy.basement_kwh }}</p>
+<p><strong>Heating kWh:</strong> {{ energy.heating_kwh }}</p>
+<p><strong>Water m³:</strong> {{ energy.water_m3 }}</p>
+<p><strong>Total Heat kWh:</strong> {{ energy.total_heat_kwh }}</p>
+<p><strong>Total Water Heat kWh:</strong> {{ energy.water_heat_kwh }}</p>
+<p><strong>Total House kWh:</strong> {{ energy.house_heat_kwh }}</p>
+<p><strong>Total Photocoltaic kWh:</strong> {{ energy.photovoltaic }}</p>
+
 <a href="{% url 'energy-list' %}">Back to List</a>
 {% endblock %}
