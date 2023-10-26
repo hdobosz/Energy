@@ -15,7 +15,7 @@ from django.views.generic.edit import UpdateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from .forms import EnergyConsumptionForm
-
+import plotly.graph_objs as go 
 
 
 def register(request):
@@ -82,87 +82,43 @@ class EnergyConsumptionUpdateView(UpdateView):
     context_object_name = 'energy'
     success_url = reverse_lazy('energy-list')
 
+# def create_pie_chart(request):
+#     # Retrieve data from the "EnergyConsumption" model
+#     data = BuildingConsumption.objects.all().order_by('month')
+#     print(data)
+#     # Process the data and create a list of categories and values
+#     categories = [entry.month for entry in data]
+#     values = [entry.total_consumption for entry in data]
+
+#     # Create a DataFrame for the pie chart
+#     pie_chart_data = {'Category': categories, 'Values': values}
+
+#     # Create a pie chart using Plotly
+#     fig = px.pie(pie_chart_data, names='Category', values='Values', title='Pie Chart Example')
+
+#     # Convert the chart to JSON using plotly.io.to_json
+#     chart_data = pio.to_json(fig)
+    
+#     return render(request, 'pie_chart.html', {'chart_data': chart_data})
+
 def create_pie_chart(request):
-    # Retrieve data from the "EnergyConsumption" model
-    data = EnergyConsumption.objects.all()
+    # Retrieve data from the "BuildingConsumption" model and sort by month
+    data = BuildingConsumption.objects.all().order_by('month')
 
-    # Process the data and create a list of categories and values
-    categories = [entry.month for entry in data]
-    values = [entry.total_kwh for entry in data]
+    # Process the data and create lists for categories and values
+    categories = [f'Month {entry.month}' for entry in data]
+    values = [entry.total_consumption for entry in data]
 
-    # Create a DataFrame for the pie chart
-    pie_chart_data = {'Category': categories, 'Values': values}
+    # Create a bar chart using Plotly
+    fig = go.Figure(data=[go.Bar(x=categories, y=values)])
 
-    # Create a pie chart using Plotly
-    fig = px.pie(pie_chart_data, names='Category', values='Values', title='Pie Chart Example')
+    # Set the layout for the bar chart
+    fig.update_layout(title='Bar Chart Example', xaxis_title='Months', yaxis_title='Total Consumption')
 
     # Convert the chart to JSON using plotly.io.to_json
     chart_data = pio.to_json(fig)
-    
+
     return render(request, 'pie_chart.html', {'chart_data': chart_data})
-
-
-# class DataProcessor:
-#     def __init__(self, year):
-#         self.year = year
-
-#     def process_data(self):
-
-#         BuildingConsumption.objects.filter(year=self.year).delete()
-
-#         for month in range(1, 13):  # Von 1 bis 12 für das gesamte Jahr
-#             try:
-#                 data_current_month = EnergyConsumption.objects.get(year=self.year, month=month)
-#                 data_previous_month = EnergyConsumption.objects.get(year=self.year, month=month-1)
-#                 result = data_current_month.total_kwh - data_previous_month.total_kwh
-#             except EnergyConsumption.DoesNotExist:
-#                 print(f'Data not found for year {self.year}, month {month}. Using default value.')
-#                 result = 0
-
-#             BuildingConsumption.objects.create(
-#                 total_consumption=result,
-#                 month=month,
-#                 year=self.year
-#             )
-
-# processor = DataProcessor(year=2023)
-# processor.process_data()
-
-
-# class DataProcessor:
-#     def __init__(self, year):
-#         self.year = year
-
-#     def process_data(self):
-
-#         BuildingConsumption.objects.filter(year=self.year).delete()
-
-#         sorted_energy_data = EnergyConsumption.objects.filter(year=self.year).order_by('year', 'month') #new
-
-#         for data in sorted_energy_data:  #new                        # Von 1 bis 12 für das gesamte Jahr
-#             month = data.month #new
-#             try:
-#                 data_current_month = EnergyConsumption.objects.get(year=self.year, month=month)
-#                 data_previous_month = EnergyConsumption.objects.get(year=self.year, month=month-1) #new
-#                 result = data_current_month.total_kwh - data_previous_month.total_kwh #new
-
-#                 #data_previous_month = EnergyConsumption.objects.get(year=self.year, month=month-1)
-#                 #result = data_current_month.total_kwh - data_previous_month.total_kwh
-#             except EnergyConsumption.DoesNotExist:
-#                 print(f'Data not found for year {self.year}, month {month}. Using default value.')
-#                 result = 0
-
-#             BuildingConsumption.objects.create(
-#                 total_consumption=result,
-#                 month=month,
-#                 year=self.year
-#             )
-
-# processor = DataProcessor(year=2023)
-# processor.process_data()
-
-
-
 
 class DataProcessor:
     def __init__(self, year):
@@ -181,7 +137,7 @@ class DataProcessor:
                 print(f'Data not found for year {self.year}, month {month}. Using default value.')
                 result = 0
             BuildingConsumption.objects.create(
-                total_consumption=result,
+                total_consumption=round(result),
                 month=month,
                 year=self.year
             )
