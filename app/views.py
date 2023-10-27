@@ -87,41 +87,13 @@ class EnergyAPIView(ListAPIView):
     queryset = EnergyConsumption.objects.all()
     serializer_class = EnergySerializer
 
-
-# def create_pie_chart(request):
-#     # Retrieve data from the "EnergyConsumption" model
-#     data = BuildingConsumption.objects.all().order_by('month')
-#     print(data)
-#     # Process the data and create a list of categories and values
-#     categories = [entry.month for entry in data]
-#     values = [entry.total_consumption for entry in data]
-
-#     # Create a DataFrame for the pie chart
-#     pie_chart_data = {'Category': categories, 'Values': values}
-
-#     # Create a pie chart using Plotly
-#     fig = px.pie(pie_chart_data, names='Category', values='Values', title='Pie Chart Example')
-
-#     # Convert the chart to JSON using plotly.io.to_json
-#     chart_data = pio.to_json(fig)
-    
-#     return render(request, 'pie_chart.html', {'chart_data': chart_data})
-
 def create_pie_chart(request):
-    # Retrieve data from the "BuildingConsumption" model and sort by month
-    data = BuildingConsumption.objects.all().order_by('month')
-
-    # Process the data and create lists for categories and values
-    categories = [f'Month {entry.month}' for entry in data]
+    
+    data = BuildingConsumption.objects.all().order_by('year', 'month')
+    categories = [f'{entry.year} - Month {entry.month}' for entry in data]
     values = [entry.total_consumption for entry in data]
-
-    # Create a bar chart using Plotly
     fig = go.Figure(data=[go.Bar(x=categories, y=values)])
-
-    # Set the layout for the bar chart
-    fig.update_layout(title='Bar Chart Example', xaxis_title='Months', yaxis_title='Total Consumption')
-
-    # Convert the chart to JSON using plotly.io.to_json
+    fig.update_layout(title='Bar Chart Example', xaxis_title='Year-Month', yaxis_title='Total Consumption')
     chart_data = pio.to_json(fig)
 
     return render(request, 'pie_chart.html', {'chart_data': chart_data})
@@ -131,7 +103,7 @@ class DataProcessor:
         self.year = year
     def process_data(self):
         BuildingConsumption.objects.filter(year=self.year).delete()
-        sorted_energy_data = EnergyConsumption.objects.filter(year=self.year).order_by('month')  # Order by 'month'
+        sorted_energy_data = EnergyConsumption.objects.filter(year=self.year).order_by('month')
         print(sorted_energy_data)
         for data in sorted_energy_data:
             month = data.month

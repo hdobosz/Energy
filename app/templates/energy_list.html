@@ -2,12 +2,16 @@
 {% block title %}Energy List {% endblock %}
 {% block content %}
 <h2>Energy Consumption Records</h2>
-<ul>
+<div class="horizontal-list">
     {% for energy in energy_records %}
-    <li><a href="{% url 'energy-detail' energy.pk %}">{{energy.year}} | {{ energy.month }}</a></li>
+    <div class="record-item">
+        <a href="{% url 'energy-detail' energy.pk %}">{{ energy.year }} | {{ energy.month }}</a>
+    </div>
     {% empty %}
-    <li>No energy consumption records available.</li>
+    <div class="record-item">
+        No energy consumption records available.
+    </div>
     {% endfor %}
-</ul>
+</div>
 <a href="{% url 'energy-create' %}">Add Record</a>
 {% endblock %}

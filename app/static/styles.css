@@ -1,4 +1,4 @@
-/* Reset default styles for consistency across browsers */
+/* Allgemeine Zurücksetzung der Standardstile und Schriften */
 body, h1, h2, h3, p, ul, li, a {
     margin: 0;
     padding: 0;
@@ -8,12 +8,12 @@ body, h1, h2, h3, p, ul, li, a {
     color: #333;
 }
 
-/* Page-wide background and text color */
+/* Hintergrund und Textfarben */
 body {
     background-color: #f4f4f4;
 }
 
-/* Header styling */
+/* Header */
 header {
     background-color: #333;
     color: #fff;
@@ -23,9 +23,10 @@ header {
 
 header h1 {
     font-size: 36px;
+    transition: color 0.3s; /* Farbübergang für den Titel */
 }
 
-/* Navigation menu */
+/* Navigation */
 nav ul {
     text-align: center;
 }
@@ -33,30 +34,41 @@ nav ul {
 nav ul li {
     display: inline;
     margin-right: 20px;
+    transition: transform 0.2s; /* Animierter Hover-Effekt für die Navigationselemente */
+}
+
+nav ul li:hover {
+    transform: scale(1.1); /* Vergrößerung beim Hover */
 }
 
 nav a {
     color: #fff;
     font-weight: bold;
     text-decoration: none;
+    transition: color 0.3s; /* Farbübergang für Links */
 }
 
-/* Content container */
+nav a:hover {
+    color: #007bff; /* Farbänderung beim Hover */
+}
+
+/* Hauptcontainer */
 .container {
     max-width: 960px;
     margin: 0 auto;
     padding: 20px;
     background-color: #fff;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Headings */
+/* Überschriften */
 h2 {
     font-size: 24px;
     margin-bottom: 20px;
+    transition: color 0.3s; /* Farbübergang für Überschriften */
 }
 
-/* Buttons */
+/* Schaltflächen */
 a.button {
     display: inline-block;
     padding: 10px 20px;
@@ -70,24 +82,25 @@ a.button {
 }
 
 a.button:hover {
-    background-color: #555;
+    background-color: #007bff; /* Farbänderung beim Hover */
+    color: #fff; /* Textfarbe beim Hover */
 }
 
-/* Lists */
+/* Listen */
 ul {
     padding-left: 20px;
 }
 
-/* Chart container */
+/* Diagrammcontainer */
 .chart-container {
     margin-top: 20px;
     background-color: #fff;
     padding: 20px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: none;
 }
 
-/* Footer (optional) */
+/* Footer */
 footer {
     text-align: center;
     padding: 20px 0;
@@ -96,7 +109,7 @@ footer {
     font-size: 14px;
 }
 
-/* Responsive design for smaller screens */
+/* Responsives Design für kleinere Bildschirme */
 @media (max-width: 768px) {
     header h1 {
         font-size: 28px;
