@@ -16,7 +16,8 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from .forms import EnergyConsumptionForm
 import plotly.graph_objs as go 
-
+from rest_framework.generics import ListAPIView
+from .serializers import EnergySerializer
 
 def register(request):
     if request.method == 'POST':               
@@ -81,6 +82,11 @@ class EnergyConsumptionUpdateView(UpdateView):
     template_name = 'energy_form.html' 
     context_object_name = 'energy'
     success_url = reverse_lazy('energy-list')
+
+class EnergyAPIView(ListAPIView):
+    queryset = EnergyConsumption.objects.all()
+    serializer_class = EnergySerializer
+
 
 # def create_pie_chart(request):
 #     # Retrieve data from the "EnergyConsumption" model
