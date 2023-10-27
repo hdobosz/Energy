@@ -9,6 +9,7 @@ dash-html-components==2.0.0
 dash-table==5.0.0
 Django==4.2.6
 django-plotly-dash==2.2.2
+djangorestframework==3.14.0
 dpd-components==0.1.0
 Flask==3.0.0
 itsdangerous==2.1.2
