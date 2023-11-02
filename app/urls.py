@@ -10,6 +10,7 @@ from .views import (
     EnergyConsumptionDetailView,  
     TemplateView,
     EnergyAPIView,
+    DetailEnergyAPIView,
 )
 
 urlpatterns = [
@@ -23,4 +24,6 @@ urlpatterns = [
     path('<int:pk>/edit/', EnergyConsumptionUpdateView.as_view(), name='energy-update'),    
     path('pie-chart/', create_pie_chart, name='pie-chart'), 
     path("api/", EnergyAPIView.as_view(), name="energy-api"),
+    path('api/<int:pk>/', DetailEnergyAPIView.as_view(), name='energy-api-detail'),
+
 ]

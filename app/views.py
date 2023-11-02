@@ -16,8 +16,9 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from .forms import EnergyConsumptionForm
 import plotly.graph_objs as go 
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from .serializers import EnergySerializer
+from django.http import HttpResponseRedirect
 
 def register(request):
     if request.method == 'POST':               
@@ -87,13 +88,17 @@ class EnergyAPIView(ListAPIView):
     queryset = EnergyConsumption.objects.all()
     serializer_class = EnergySerializer
 
+class DetailEnergyAPIView(RetrieveAPIView):
+    queryset = EnergyConsumption.objects.all()
+    serializer_class = EnergySerializer
+
 def create_pie_chart(request):
     
     data = BuildingConsumption.objects.all().order_by('year', 'month')
     categories = [f'{entry.year} - Month {entry.month}' for entry in data]
     values = [entry.total_consumption for entry in data]
     fig = go.Figure(data=[go.Bar(x=categories, y=values)])
-    fig.update_layout(title='Bar Chart Example', xaxis_title='Year-Month', yaxis_title='Total Consumption')
+    fig.update_layout(title='Bar Chart', xaxis_title='Year-Month', yaxis_title='Total Consumption')
     chart_data = pio.to_json(fig)
 
     return render(request, 'pie_chart.html', {'chart_data': chart_data})
@@ -104,7 +109,7 @@ class DataProcessor:
     def process_data(self):
         BuildingConsumption.objects.filter(year=self.year).delete()
         sorted_energy_data = EnergyConsumption.objects.filter(year=self.year).order_by('month')
-        print(sorted_energy_data)
+        #print(sorted_energy_data)
         for data in sorted_energy_data:
             month = data.month
             try:
