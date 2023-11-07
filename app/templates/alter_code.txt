@@ -1,0 +1,158 @@
+<!-- {% extends "base.html" %}
+
+{% block content %}
+<h1>Total Consumption</h1>
+<p>The values for the entire year are shown on this page:</p>
+<div id="bar-chart" style="width: 950px; height: 400px;"></div> 
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+google.charts.load('current', {'packages': ['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+var data = google.visualization.arrayToDataTable({{ chart_data|safe }});
+var options = {
+title: 'Bar Chart',
+hAxis: {title: 'Year-Month'},
+vAxis: {title: 'Total Consumption'},
+};
+
+var chart = new google.visualization.ColumnChart(document.getElementById('bar-chart'));
+chart.draw(data, options);
+}
+</script>
+<br>
+<hr>
+<br>
+<h1>Total Water Consumption</h1>
+<p>The values for the entire year are shown on this page:</p>
+<div id="bar-chart-water" style="width: 950px; height: 400px;"></div> 
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+google.charts.load('current', {'packages': ['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+function drawChart() {
+var data = google.visualization.arrayToDataTable({{ chart_data|safe }});
+var options = {
+title: 'Bar Chart',
+hAxis: {title: 'Year-Month'},
+vAxis: {title: 'Total Water Consumption'},
+};
+var chart = new google.visualization.ColumnChart(document.getElementById('bar-chart-water'));
+chart.draw(data, options);
+}
+</script>
+<br>
+<hr>
+<br>
+<h1>Total House Consumption</h1>
+<p>The values for the entire year are shown on this page:</p>
+<div id="bar-chart-house" style="width: 950px; height: 400px;"></div> 
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+google.charts.load('current', {'packages': ['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+function drawChart() {
+var data = google.visualization.arrayToDataTable({{ chart_data|safe }});
+var options = {
+title: 'Bar Chart',
+hAxis: {title: 'Year-Month'},
+vAxis: {title: 'Total House Consumption'},
+};
+var chart = new google.visualization.ColumnChart(document.getElementById('bar-chart-house'));
+chart.draw(data, options);
+}
+</script>
+{% endblock %} -->
+
+
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Total Consumption</h1>
+    <p>The values for the entire year are shown on this page:</p>
+    <div id="line-chart" style="width: 950px; height: 400px;"></div> 
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages': ['corechart']});
+        google.charts.setOnLoadCallback(drawConsumptionChart);
+
+        function drawConsumptionChart() {
+            var data = google.visualization.arrayToDataTable({{ chart_data|safe }});
+            
+            var options = {
+                title: 'Line Chart with Trendline',
+                hAxis: {title: 'Year-Month'},
+                vAxis: {title: 'Total Consumption'},
+                trendlines: {
+                    0: { type: 'linear', color: 'red' } // Linear trendline in red
+                },
+                curveType: 'function', // Dies ermöglicht die Anzeige der Trendlinie
+                legend: 'none' // Ausblenden der Legende, da nur eine Datenreihe vorhanden ist
+            };
+    
+            var chart = new google.visualization.LineChart(document.getElementById('line-chart'));
+            chart.draw(data, options);
+        }
+    </script>
+    <br>
+    <hr>
+    <br>
+
+    <h1>Total Water Consumption</h1>
+    <p>The values for the entire year are shown on this page:</p>
+    <div id="line-chart-water" style="width: 950px; height: 400px;"></div> 
+
+    <script type="text/javascript">
+        google.charts.setOnLoadCallback(drawWaterConsumptionChart);
+
+        function drawWaterConsumptionChart() {
+            var data = google.visualization.arrayToDataTable({{ chart_data|safe }});
+            
+            var options = {
+                title: 'Line Chart with Trendline',
+                hAxis: {title: 'Year-Month'},
+                vAxis: {title: 'Total Water Consumption'},
+                trendlines: {
+                    0: { type: 'linear', color: 'blue' } // Linear trendline in blue
+                },
+                curveType: 'function',
+                legend: 'none'
+            };
+    
+            var chart = new google.visualization.LineChart(document.getElementById('line-chart-water'));
+            chart.draw(data, options);
+        }
+    </script>
+    <br>
+    <hr>
+    <br>
+
+    <h1>Total House Consumption</h1>
+    <p>The values for the entire year are shown on this page:</p>
+    <div id="line-chart-house" style="width: 950px; height: 400px;"></div> 
+
+    <script type="text/javascript">
+        google.charts.setOnLoadCallback(drawHouseConsumptionChart);
+
+        function drawHouseConsumptionChart() {
+            var data = google.visualization.arrayToDataTable({{ chart_data|safe }});
+            
+            var options = {
+                title: 'Line Chart with Trendline',
+                hAxis: {title: 'Year-Month'},
+                vAxis: {title: 'Total House Consumption'},
+                trendlines: {
+                    0: { type: 'linear', color: 'green' } // Linear trendline in green
+                },
+                curveType: 'function',
+                legend: 'none'
+            };
+    
+            var chart = new google.visualization.LineChart(document.getElementById('line-chart-house'));
+            chart.draw(data, options);
+        }
+    </script>
+{%endblock %}

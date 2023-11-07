@@ -15,7 +15,9 @@
                 <li>Welcome, <span style="color: rgb(179, 75, 118)">Logged User: {{ user.username }}</span></li>
                 <li><a href="{% url 'energy-list' %}">Home</a></li>  
                 <li><a href="{% url 'energy-create' %}">Energy Create</a></li>   
-                <li><a href="{% url 'pie-chart' %}">Chart Total Consumtion</a></li> 
+                <li><a href="{% url 'bar-chart' %}">Charts Consumption</a></li> 
+                <li><a href="{% url 'bar-chart-water' %}">Chart Water Consumption</a></li> 
+                <li><a href="{% url 'bar-chart-house' %}">Chart House  Consumption</a></li> 
                 <li><a href="{% url 'energy-api' %}">API</a></li> 
                 <li><a href="{% url 'logout' %}">logout</a></li> 
                 {% else %}
