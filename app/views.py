@@ -161,7 +161,6 @@ class DataProcessor:
                 data_current_month = EnergyConsumption.objects.get(year=self.year, month=month)
                 data_previous_month = EnergyConsumption.objects.get(year=self.year, month=month - 1)
                 result = data_current_month.total_kwh - data_previous_month.total_kwh
-                # Calculate additional consumption attributes
                 water_consumption = data_current_month.water_m3 - data_previous_month.water_m3
                 house_consumption = data_current_month.total_kwh - data_current_month.heating_kwh - data_current_month.water_m3
                 ground_floor_consumption = data_current_month.total_kwh - data_current_month.attic_kwh - data_current_month.basement_kwh
