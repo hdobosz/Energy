@@ -5,7 +5,7 @@ body, h1, h2, h3, p, ul, li, a {
     text-decoration: none;
     list-style: none;
     font-family: Arial, sans-serif;
-    color: #333;
+    color: #1344c9;
 }
 
 /* Hintergrund und Textfarben */
@@ -15,7 +15,7 @@ body {
 
 /* Header */
 header {
-    background-color: #333;
+    background-color: #4b1cce;
     color: #fff;
     text-align: center;
     padding: 1rem 0;
@@ -54,9 +54,9 @@ nav a:hover {
 
 /* Hauptcontainer */
 .container {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 20px;
+    width: 500%; /* Ändere die Breite des Containers nach Bedarf */
+    margin: 0 auto; /* Zentriere den Container horizontal */
+    padding: 20px; /* Füge Innenabstand hinzu */
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -82,7 +82,7 @@ a.button {
 }
 
 a.button:hover {
-    background-color: #007bff; /* Farbänderung beim Hover */
+    background-color: #d4d7da; /* Farbänderung beim Hover */
     color: #fff; /* Textfarbe beim Hover */
 }
 
@@ -126,4 +126,11 @@ footer {
     a.button {
         padding: 8px 16px;
     }
+}
+
+/* Datum */
+.date {
+    position: left;
+    top: 5px; /* Abstand vom oberen Rand */
+    left: 5px; /* Abstand vom linken Rand */
 }

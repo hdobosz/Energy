@@ -2,6 +2,13 @@
 {% block title %}Energy List {% endblock %}
 {% block content %}
 <h2>Energy Consumption Records</h2>
+     <!-- Dropdown menu for selecting the year -->
+     <label for="year-select">Select Year:</label>
+     <select id="year-select">
+         {% for year in available_years %}
+             <option value="{{ year }}">{{ energy.year }}</option>
+         {% endfor %}
+     </select>
 <div class="horizontal-list">
     {% for energy in energy_records %}
     <div class="record-item">
@@ -15,3 +22,6 @@
 </div>
 <a href="{% url 'energy-create' %}">Add Record</a>
 {% endblock %}
+
+
+

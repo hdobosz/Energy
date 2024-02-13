@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,22 +7,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
     <title>{% block title %}Project{% endblock %}</title>
+    <style>
+        /* Dropdown menu styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #7173e9;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Logo */
+        .logo {
+            position: absolute;
+            top: 5px; /* Abstand vom oberen Rand */
+            right: 5px; /* Abstand vom rechten Rand */
+        }
+        
+        /* Additional global styles can be placed here */
+    </style>
 </head>
 <body>
     <header>
+        <div class="logo">
+            <img src="{% static 'Logo.png' %}" alt="Logo" style="width: 70px; height: auto;">
+        </div>
+        <div class="date">
+            {% now "D, d M Y" %}
+        </div>
         <nav>
             <ul>
                 {% if user.is_authenticated %}
-                <li>Welcome, <span style="color: rgb(179, 75, 118)">Logged User: {{ user.username }}</span></li>
-                <li><a href="{% url 'energy-list' %}">Home</a></li>  
-                <li><a href="{% url 'energy-create' %}">Energy Create</a></li>   
-                <li><a href="{% url 'bar-chart' %}">Charts Consumption</a></li> 
-                <li><a href="{% url 'bar-chart-water' %}">Chart Water Consumption</a></li> 
-                <li><a href="{% url 'bar-chart-house' %}">Chart House  Consumption</a></li> 
-                <li><a href="{% url 'energy-api' %}">API</a></li> 
-                <li><a href="{% url 'logout' %}">logout</a></li> 
+                    <li>Welcome, <span style="color: rgb(179, 75, 118)">User logged: {{ user.username }}</span></li>
+                    <li><a href="{% url 'energy-list' %}">Home</a></li>
+                    <li><a href="{% url 'energy-create' %}">Energy Create</a></li>
+                    <li class="dropdown">
+                        <a href="#">Charts</a>
+                        <div class="dropdown-content" id="chart-options">
+                            <a href="{% url 'bar-chart' %}">Total Chart</a><br>
+                            <a href="{% url 'bar-chart-water' %}">Water Chart</a><br>
+                            <a href="{% url 'bar-chart-heating' %}">Heating Chart</a><br>
+                            <a href="{% url 'bar-chart-groundfloor' %}">Groundfloor Chart</a><br>
+                            <a href="{% url 'bar-chart-attic' %}">Attic Chart</a><br>
+                            <a href="{% url 'bar-chart-basement' %}">Basement Chart</a>
+                        </div>
+                    </li>
+                    <li><a href="{% url 'energy-api' %}">API</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
                 {% else %}
-                <li><a href="{% url 'login' %}">login</a></li>
+                    <li><a href="{% url 'login' %}">Login</a></li>
                 {% endif %}
             </ul>
         </nav>
@@ -30,5 +74,13 @@
         {% block content %}
         {% endblock %}
     </div>
+    <script>
+        // JavaScript to toggle the visibility of chart options on click
+        const chartOptions = document.getElementById('chart-options');
+        const dropdown = document.querySelector('.dropdown');
+        dropdown.addEventListener('click', () => {
+            chartOptions.style.display = (chartOptions.style.display === 'block') ? 'none' : 'block';
+        });
+    </script>
 </body>
 </html>

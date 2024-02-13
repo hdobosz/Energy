@@ -98,55 +98,62 @@ def create_bar_chart(request):
     chart_data = [['Year-Month', 'Total Consumption']]
 
     for entry in data:
-        total_consumption = float(entry.total_consumption)  # Convert to float
+        total_consumption = float(entry.total_consumption)
         chart_data.append([f'{entry.year} - Month {entry.month}', total_consumption])
 
     return render(request, 'bar_chart.html', {'chart_data': chart_data})
 
 
-def create_bar_chart_house(request):
+def create_bar_chart_heating(request):
     data = BuildingConsumption.objects.all().order_by('year', 'month')
-    chart_data = [['Year-Month', 'Total House Consumption']]
+    chart_data = [['Year-Month', 'Total Heating Consumption']]
 
     for entry in data:
-        total_consumption = float(entry.house_consumption)  # Convert to float
+        total_consumption = float(entry.heating_consumption)
         chart_data.append([f'{entry.year} - Month {entry.month}', total_consumption])
 
-    return render(request, 'bar_chart_house.html', {'chart_data': chart_data})
+    return render(request, 'bar_chart_heating.html', {'chart_data': chart_data})
 
 def create_bar_chart_water(request):
     data = BuildingConsumption.objects.all().order_by('year', 'month')
     chart_data = [['Year-Month', 'Total Water Consumption']]
 
     for entry in data:
-        total_consumption = float(entry.water_consumption)  # Convert to float
+        total_consumption = float(entry.water_consumption)
         chart_data.append([f'{entry.year} - Month {entry.month}', total_consumption])
 
     return render(request, 'bar_chart_water.html', {'chart_data': chart_data})
 
-# class DataProcessor:
-#     def __init__(self, year):
-#         self.year = year
-#     def process_data(self):
-#         BuildingConsumption.objects.filter(year=self.year).delete()
-#         sorted_energy_data = EnergyConsumption.objects.filter(year=self.year).order_by('month')[1:]
-#         for data in sorted_energy_data:
-#             month = data.month
-#             try:
-#                 data_current_month = EnergyConsumption.objects.get(year=self.year, month=month)
-#                 data_previous_month = EnergyConsumption.objects.get(year=self.year, month=month - 1)
-#                 result = data_current_month.total_kwh - data_previous_month.total_kwh
+def create_bar_chart_groundfloor(request):
+    data = BuildingConsumption.objects.all().order_by('year', 'month')
+    chart_data = [['Year-Month', 'Total Groundfloor Consumption']]
 
-#             except EnergyConsumption.DoesNotExist:
-#                 print(f'Data not found for year {self.year}, month {month}. Using default value.')
-#                 result = 0
-#             BuildingConsumption.objects.create(
-#                 total_consumption=round(result),
-#                 month=month,
-#                 year=self.year
-#             )
-# processor = DataProcessor(year=2023)
-# processor.process_data()
+    for entry in data:
+        total_consumption = float(entry.ground_floor_consumption)
+        chart_data.append([f'{entry.year} - Month {entry.month}', total_consumption])
+
+    return render(request, 'bar_chart_groundfloor.html', {'chart_data': chart_data})
+
+def create_bar_chart_attic(request):
+    data = BuildingConsumption.objects.all().order_by('year', 'month')
+    chart_data = [['Year-Month', 'Total Attic Consumption']]
+
+    for entry in data:
+        total_consumption = float(entry.attic_consumption)
+        chart_data.append([f'{entry.year} - Month {entry.month}', total_consumption])
+
+    return render(request, 'bar_chart_groundfloor.html', {'chart_data': chart_data})
+
+def create_bar_chart_basement(request):
+    data = BuildingConsumption.objects.all().order_by('year', 'month')
+    chart_data = [['Year-Month', 'Total Basement Consumption']]
+
+    for entry in data:
+        total_consumption = float(entry.basement_consumption)
+        chart_data.append([f'{entry.year} - Month {entry.month}', total_consumption])
+
+    return render(request, 'bar_chart_basement.html', {'chart_data': chart_data})
+
 
 class DataProcessor:
     def __init__(self, year):
@@ -162,17 +169,15 @@ class DataProcessor:
                 data_previous_month = EnergyConsumption.objects.get(year=self.year, month=month - 1)
                 result = data_current_month.total_kwh - data_previous_month.total_kwh
                 water_consumption = data_current_month.water_m3 - data_previous_month.water_m3
-                house_consumption = data_current_month.total_kwh - data_current_month.heating_kwh - data_current_month.water_m3
-                ground_floor_consumption = data_current_month.total_kwh - data_current_month.attic_kwh - data_current_month.basement_kwh
-                attic_consumption = data_current_month.attic_kwh
-                basement_consumption = data_current_month.basement_kwh
-                heating_consumption = data_current_month.heating_kwh
+                ground_floor_consumption = data_current_month.total_kwh - data_current_month.attic_kwh - data_current_month.basement_kwh - data_current_month.heating_kwh
+                attic_consumption = data_current_month.attic_kwh - data_previous_month.attic_kwh
+                basement_consumption = data_current_month.basement_kwh - data_previous_month.basement_kwh
+                heating_consumption = data_current_month.heating_kwh - data_previous_month.heating_kwh
             except EnergyConsumption.DoesNotExist:
                 print(f'Data not found for year {self.year}, month {month}. Using default values.')
                 result = 0
                 # Set default values for additional consumption attributes
                 water_consumption = 0
-                house_consumption = 0
                 ground_floor_consumption = 0
                 attic_consumption = 0
                 basement_consumption = 0
@@ -183,7 +188,6 @@ class DataProcessor:
                 month=month,
                 year=self.year,
                 water_consumption=round(water_consumption),
-                house_consumption=round(house_consumption),
                 ground_floor_consumption=round(ground_floor_consumption),
                 attic_consumption=round(attic_consumption),
                 basement_consumption=round(basement_consumption),
@@ -192,3 +196,5 @@ class DataProcessor:
 
 processor = DataProcessor(year=2023)
 processor.process_data()
+
+

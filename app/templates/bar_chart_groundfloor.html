@@ -3,7 +3,7 @@
 {% block content %}
     <h1>Total Consumption</h1>
     <p>The values for the entire year are shown on this page:</p>
-    <div id="bar-chart" style="width: 950px; height: 400px;"></div> 
+    <div id="bar-chart-groundfloor" style="width: 950px; height: 400px;"></div> 
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
@@ -16,10 +16,10 @@
             var options = {
                 title: 'Bar Chart',
                 hAxis: {title: 'Year-Month'},
-                vAxis: {title: 'Total Consumption'},
+                vAxis: {title: 'Total Groundfloor Consumption'},
             };
 
-            var chart = new google.visualization.ColumnChart(document.getElementById('bar-chart'));
+            var chart = new google.visualization.ColumnChart(document.getElementById('bar-chart-groundfloor'));
             chart.draw(data, options);
         }
     </script>
