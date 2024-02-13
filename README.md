@@ -1,6 +1,3 @@
-# our_project
+# Engery App
 
-this is the first task
-
-
-this is the second task
+This app can be used for an energy inventory and can be installed. Expansion is possible at any time.
